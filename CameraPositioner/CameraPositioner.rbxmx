@@ -1,0 +1,89 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBX45AA04000DAF426FB11D0DAA7FB46A53">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">CameraPositioner</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Script" referent="RBX9348F6DD47304204A90733135A0A2F20">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Main</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{46ECBA11-28CC-4309-9DB8-7E02BE52F5CF}</string>
+				<ProtectedString name="Source"><![CDATA[--!strict
+--!native
+--!optimize 2
+
+--[[
+	Easily move the camera to a part or a part to the camera.
+]]
+
+local Selection = game:GetService("Selection")
+
+local Toolbar = plugin:CreateToolbar("CamPositioner")
+local CamToPart = Toolbar:CreateButton(
+	"CamToPart", 
+	"Moves the camera to the selected part", 
+	"rbxassetid://19004803672"
+)
+
+local PartToCam = Toolbar:CreateButton(
+	"PartToCam", 
+	"Moves the selected part to the camera", 
+	"rbxassetid://19004804783"
+)
+
+local camera = workspace.Camera
+
+CamToPart.Click:Connect(function()
+	local selection = Selection:Get()
+
+	if #selection < 1 then 
+		warn("Select a part to move the camera to.")
+		return	
+	end
+
+	if #selection > 1 then
+		warn("Selection includes multiple objects, please select only one.")
+		return
+	end
+
+	local selectedObject = selection[1]
+	camera.CameraType = Enum.CameraType.Scriptable
+	camera.CFrame = selectedObject.CFrame
+	camera.CameraType = Enum.CameraType.Custom
+end)
+
+PartToCam.Click:Connect(function()
+	local selection = Selection:Get()
+
+	if #selection < 1 then 
+		warn("Select a part to move to the camera.")
+		return	
+	end
+
+	if #selection > 1 then
+		warn("Selection includes multiple objects, please select only one.")
+		return
+	end
+
+	local selectedObject = selection[1]
+	selectedObject.CFrame = camera.CFrame
+end)
+]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
