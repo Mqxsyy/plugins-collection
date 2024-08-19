@@ -1,0 +1,63 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBXBD75BBAABB174BBDA8A8A5C9229DC952">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">SaveToFile</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Script" referent="RBX201E425ABBCA4ACEBE4B2B760934C659">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">SaveToFile</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{FAE07B63-56E6-4A7B-B207-AA40FEABE387}</string>
+				<ProtectedString name="Source"><![CDATA[--!strict
+--!native
+--!optimize 2
+
+--[[
+
+  Prompts to save the selected instance to a file and automatically sets it's filename.
+
+]]
+
+local Selection = game:GetService("Selection")
+
+local Toolbar = plugin:CreateToolbar("Save To File")
+local SaveButton = Toolbar:CreateButton(
+	"SaveToFile", 
+	"Save selected object to .rbxm", 
+	"rbxassetid://18961222990"
+)
+
+SaveButton.Click:Connect(function()
+	local selection = Selection:Get()
+
+	if #selection < 1 then 
+		warn("Select an object to export")
+		return	
+	end
+
+	if #selection > 1 then
+		warn("Selection includes multiple objects, please select only one")
+		return
+	end
+
+	local selectedObject = selection[1]
+	plugin:PromptSaveSelection(selectedObject.Name)
+end)]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
