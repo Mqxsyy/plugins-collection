@@ -1,0 +1,71 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBX5C2B2B84BC984648829995BD5A124BAB">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">ModuleRunnerV2</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Script" referent="RBX3D843257E73F41899EEE944965634653">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Main</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{7D172484-134D-42E0-AC83-3142C6C857EB}</string>
+				<ProtectedString name="Source"><![CDATA[--native
+--optimize 2
+
+--[[
+
+	Requires ModuleScripts in studio.
+	Does not automatically destroy scripts, allowing the use of connections.
+	
+	WARNING: DOES NOT AUTOMATICALLY CLEAN CONNECTIONS!
+	
+]]
+
+local Selection = game:GetService("Selection")
+
+local toolbar = plugin:CreateToolbar("ModuleRunner")
+local button = toolbar:CreateButton(
+	"Run", 
+	"Requires selected ModuleScripts", 
+	"rbxassetid://18214486449"
+)
+
+button.ClickableWhenViewportHidden = true
+
+local function RunModule()
+	local selectedObjects = Selection:Get()
+
+	for _, selectedObject in selectedObjects do
+		if not selectedObject:IsA("ModuleScript") then continue end
+
+		local activeModule = selectedObject.Parent:FindFirstChild(selectedObject.Name .." - ACTIVE")
+		if activeModule then
+			activeModule:Destroy()
+		end
+
+		local module = selectedObject:Clone()
+		module.Parent = selectedObject.Parent
+		module.Name = module.Name .." - ACTIVE"
+
+		require(module)
+	end
+end
+
+button.Click:Connect(RunModule)]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
