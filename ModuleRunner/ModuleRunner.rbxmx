@@ -1,0 +1,60 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBX2B980B05FAFD4CFA9ADCC037247534D7">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">ModuleRunner</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Script" referent="RBXD73C5C39128F499DAD435151518C5C74">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Main</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{97ACA1CE-E1DE-44AC-8336-4BE0A0DB9715}</string>
+				<ProtectedString name="Source"><![CDATA[--native
+--optimize 2
+
+--[[
+
+	Requires ModuleScripts in studio.
+	
+]]
+
+local Selection = game:GetService("Selection")
+
+local toolbar = plugin:CreateToolbar("ScriptRunner")
+local button = toolbar:CreateButton("Run", "", "rbxassetid://18214486449")
+button.ClickableWhenViewportHidden = true
+
+local function RunModule()
+	local selectedObjects = Selection:Get()
+
+	for _, selectedObject in selectedObjects do
+		if not selectedObject:IsA("ModuleScript") then continue end
+		local module = selectedObject:Clone()
+		module.Parent = selectedObject.Parent
+		
+		pcall(function()
+			require(module)
+		end)
+		
+		module:Destroy()
+	end
+end
+
+button.Click:Connect(RunModule)]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
