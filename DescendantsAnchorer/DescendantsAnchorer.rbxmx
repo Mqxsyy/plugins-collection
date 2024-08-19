@@ -1,0 +1,70 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBX545021716EB74E0D8C97494525B9F793">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">DescendantsAnchorer</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Script" referent="RBXB0550C7F6CAC4DC1850757A864656D3A">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Main</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{B20616E2-3AB4-4B08-8120-E83A605FD202}</string>
+				<ProtectedString name="Source"><![CDATA[--[[
+
+	Anchors/Unanchors all descendants of selected object
+
+]]
+
+local Selection = game:GetService("Selection")
+
+local toolbar = plugin:CreateToolbar("Descendants Anchorer")
+local anchorButton = toolbar:CreateButton("Anchor", "", "rbxassetid://18215389607")
+local unanchorButton = toolbar:CreateButton("Unanchor", "", "rbxassetid://18215390596")
+
+local function AnchorDescendants()
+	local selectedObjects = Selection:Get()
+
+	for _, selectedObject in selectedObjects do		
+		local descendants = selectedObject:GetDescendants()
+		table.insert(descendants, selectedObject)
+		
+		for _, descendant in descendants do
+			if not descendant:IsA("BasePart") then continue end
+			descendant.Anchored = true
+		end 
+	end
+end
+
+local function UnanchorDescendants()
+	local selectedObjects = Selection:Get()
+
+	for _, selectedObject in selectedObjects do
+		local descendants = selectedObject:GetDescendants()
+		table.insert(descendants, selectedObject)
+		
+		for _, descendant in descendants do
+			if not descendant:IsA("BasePart") then continue end
+			descendant.Anchored = false
+		end 
+	end
+end
+
+anchorButton.Click:Connect(AnchorDescendants)
+unanchorButton.Click:Connect(UnanchorDescendants)]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
