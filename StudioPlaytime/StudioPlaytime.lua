@@ -6,6 +6,12 @@
 	Track the time you spend inside studio.
 ]]
 
+local RunService = game:GetService("RunService")
+
+if RunService:IsRunning() then
+	return
+end
+
 local PLAYTIME_KEY = "Playtime"
 local LAST_CHECK_KEY = "LastCheck"
 
