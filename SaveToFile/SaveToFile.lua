@@ -19,17 +19,33 @@ local SaveButton = Toolbar:CreateButton(
 
 SaveButton.Click:Connect(function()
 	local selection = Selection:Get()
-	
+
 	if #selection < 1 then 
 		warn("Select an object to export")
 		return	
 	end
-	
+
 	if #selection > 1 then
 		warn("Selection includes multiple objects, please select only one")
 		return
 	end
-	
+
 	local selectedObject = selection[1]
-	plugin:PromptSaveSelection(selectedObject.Name)
+
+	local copy = selectedObject:Clone()
+	local parent = selectedObject.Parent
+
+	local success = plugin:PromptSaveSelection(selectedObject.Name)
+	if success then
+		task.wait()
+		selectedObject:Destroy()
+		
+		local ghostInstance = parent:WaitForChild(copy.Name, 1) 
+		if ghostInstance then
+			ghostInstance:Destroy()
+		end
+
+		task.wait()
+		copy.Parent = parent
+	end
 end)
