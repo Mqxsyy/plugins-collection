@@ -4,7 +4,12 @@
 
 --[[
 
-  Prompts to save the selected instance to a file and automatically sets it's filename.
+	Prompts to save the selected instance to a file and automatically sets it's filename.
+
+	Additionally deletes original selected object, waits for a replacement by rojo, which it
+	deletes and adds back the original.
+
+	This prevents rojo from corrupting the object.
 
 ]]
 
